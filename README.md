@@ -55,7 +55,7 @@ Banner-10.0/
   │   ├─ middleware/        # Express middleware
   │   └─ models/ routes/    # Data models and routes
   └─ README.md
-
+```
 ## Getting Started
 
 ### Prerequisites
