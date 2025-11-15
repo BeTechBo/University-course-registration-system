@@ -102,6 +102,87 @@ const EmailVerify = () => {
       navigate('/');
     }
   }, [userData, isLoggedIn, navigate]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
+  return (
+    <div className="flex items-center justify-center min-h-screen px-6 sm:px-0 bg-gradient-to-br from-blue-50 to-blue-100">
+      <img 
+        onClick={() => navigate('/')} 
+        src={assets.logo} 
+        alt="Logo" 
+        className="absolute left-5 sm:left-20 top-5 w-28 sm:w-32 cursor-pointer" 
+      />
+
+      <div className="bg-white p-8 sm:p-12 rounded-lg shadow-2xl w-full max-w-md">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-3xl">📧</span>
+          </div>
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            Verify Your Email
+          </h2>
+          <p className="text-sm text-gray-600">
+            We've sent a 6-digit verification code to
+          </p>
+          <p className="text-sm font-semibold text-blue-600 mt-1">
+            {userData?.email}
+          </p>
+        </div>
+
+        <form onSubmit={onSubmitHandler}>
+          <div className="flex justify-center gap-2 mb-6">
+            {[0, 1, 2, 3, 4, 5].map((index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength="1"
+                className="w-12 h-12 sm:w-14 sm:h-14 text-center text-2xl font-bold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                ref={(el) => (inputRefs.current[index] = el)}
+                onInput={(e) => handleInput(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                onPaste={index === 0 ? handlePaste : undefined}
+              />
+            ))}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4"
+          >
+            Verify Email
+          </button>
+
+          <div className="text-center">
+            <p className="text-sm text-gray-600 mb-2">
+              Didn't receive the code?
+            </p>
+            <button
+              type="button"
+              onClick={resendOtp}
+              disabled={isResending}
+              className="text-blue-600 hover:text-blue-700 font-medium text-sm disabled:text-gray-400 disabled:cursor-not-allowed"
+            >
+              {isResending ? 'Sending...' : 'Resend Code'}
+            </button>
+          </div>
+        </form>
+
+        <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+          <button
+            onClick={() => navigate('/')}
+            className="text-gray-600 hover:text-gray-800 text-sm"
+          >
+            ← Back to Home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default EmailVerify;
