@@ -95,6 +95,38 @@ export const login = async (req, res) => {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Allow login but return verification status
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({ 
+      success: true,
+      message: 'Login successful',
+      isVerified: user.isAccountVerified,
+      needsVerification: !user.isAccountVerified
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 };
 
 // Keep other functions the same (logout, sendVerifyOtp, verifyEmail, etc.)
