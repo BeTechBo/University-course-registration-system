@@ -29,13 +29,13 @@ Future sprints will extend this into a fuller course enrollment and administrati
 - Vite  
 - React  
 - JavaScript  
-- HTML / CSS  
+- HTML / Tailwind CSS  
 
 **Backend**
 
 - Node.js  
 - Express.js  
-- MongoDB (or another DB, depending on `server/config`)  
+- MYSQL   
 - REST-style JSON API  
 
 ---
@@ -44,17 +44,59 @@ Future sprints will extend this into a fuller course enrollment and administrati
 
 ```text
 Banner-10.0/
-  ├─ package.json           # Frontend package.json
-  ├─ src/                   # Frontend React source
-  ├─ public/                # Frontend static assets
-  ├─ server/
-  │   ├─ package.json       # Backend package.json
-  │   ├─ server.js          # Express app entry point
-  │   ├─ config/            # DB / environment config
-  │   ├─ controllers/       # Route controllers
-  │   ├─ middleware/        # Express middleware
-  │   └─ models/ routes/    # Data models and routes
-  └─ README.md
+└── 📁client
+    └── 📁public
+        ├── bg_img.png
+        ├── favicon.svg
+    └── 📁src
+        └── 📁assets
+        └── 📁components
+            ├── Header.jsx
+            ├── LoadingScreen.jsx
+            ├── Navbar.jsx
+        └── 📁context
+            ├── Appcontext.jsx
+        └── 📁pages
+            ├── EmailVerify.jsx
+            ├── Home.jsx
+            ├── Login.jsx
+            ├── ResetPassword.jsx
+        ├── App.jsx
+        ├── index.css
+        ├── main.jsx
+    ├── .gitignore
+    ├── eslint.config.js
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    └── vite.config.js
+└── 📁server
+    └── 📁config
+        ├── database.js
+        ├── emailTemplates.js
+        ├── nodemailer.js
+    └── 📁controllers
+        ├── authController.js
+        ├── courseController.js
+        ├── enrollmentController.js
+        ├── userController.js
+    └── 📁middleware
+        ├── userAuth.js
+    └── 📁models
+        ├── courseModel.js
+        ├── enrollmentModel.js
+        ├── userModel.js
+    └── 📁routes
+        ├── authRoutes.js
+        ├── courseRoutes.js
+        ├── enrollmentRoutes.js
+        ├── userRoutes.js
+    ├── .env
+    ├── package-lock.json
+    ├── package.json
+    ├── seedCourses.js
+    └── server.js
 ```
 ## Getting Started
 
@@ -70,13 +112,14 @@ Banner-10.0/
 Clone the repository:
 
 ~~~bash
-git clone <REPO_URL>
+git clone <https://github.com/Hamdy1337/Banner-10.0.git>
 cd Banner-10.0
 ~~~
 
 ### Install frontend dependencies
 
 ~~~bash
+cd client
 npm install
 ~~~
 
@@ -92,8 +135,6 @@ cd ..
 
 ## Running the Project
 
-> Exact script names may differ slightly depending on the `package.json`.  
-> If they do, adjust the commands below to whatever exists under `"scripts"`.
 
 ### Start the backend (server)
 
@@ -101,27 +142,27 @@ In one terminal:
 
 ~~~bash
 cd server
-npm start        # or: npm run dev
+npm run dev
 ~~~
 
-This should start the Express server on a port defined in your backend config  
-(for example `http://localhost:5000` or similar).
+This should start the Express server on a the port 4000.
 
 ### Start the frontend (client)
 
 In a second terminal (from the project root):
 
 ~~~bash
+cd client
 npm run dev
 ~~~
 
-Vite will start the React dev server, usually at:
+Vite will start the React dev server, at:
 
 ~~~text
 http://localhost:5173
 ~~~
 
-The frontend is configured to call the backend API (for example `http://localhost:5000/api/...`).
+The frontend is configured to call the backend API (for example `http://localhost:4000/api/...`).
 
 ---
 
@@ -172,4 +213,4 @@ The frontend is configured to call the backend API (for example `http://localhos
 
 ## License
 
-> TODO: Add license information here (e.g. MIT, proprietary, etc.) once decided.
+
