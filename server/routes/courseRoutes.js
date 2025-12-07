@@ -4,7 +4,9 @@ import {
   searchCourses, 
   advancedSearch,
   getCourseById,
-  getFilterOptions
+  getFilterOptions,
+  getCoursePrerequisites  
+
 } from '../controllers/courseController.js';
 import userAuth from '../middleware/userAuth.js';
 
@@ -27,5 +29,8 @@ courseRouter.get('/filters', getFilterOptions);
 
 // Get single course by ID
 courseRouter.get('/:id', getCourseById);
+
+courseRouter.get('/courses/:courseId/prerequisites', userAuth, getCoursePrerequisites); 
+
 
 export default courseRouter;

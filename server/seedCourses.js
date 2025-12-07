@@ -1,5 +1,58 @@
 import Course from './models/courseModel.js';
 import sequelize from './config/database.js';
+import User from './models/userModel.js';
+
+const seedCourses = async () => {
+  try {
+    console.log('🌱 Starting database seeding...');
+
+    await sequelize.sync({ force: false });
+
+    // ✅ Create users WITHOUT pre-hashing - let the model hooks do it
+    const [admin, adminCreated] = await User.findOrCreate({
+      where: { email: 'admin@aucegypt.edu' },
+      defaults: {
+        name: 'Admin User',
+        email: 'admin@aucegypt.edu',
+        studentId: 'ADMIN001',
+        department: 'Administration',
+        yearLevel: '4',
+        password: 'password123', // ✅ Plain text - model will hash it
+        isAccountVerified: true,
+        role: 'admin',
+        maxCreditsPerSemester: 18
+      }
+    });
+    
+    if (adminCreated) {
+      console.log('✅ Admin user created:', admin.email);
+    } else {
+      console.log('⏭️  Admin user already exists');
+    }
+
+    // Create Student User
+    const [student, studentCreated] = await User.findOrCreate({
+      where: { email: 'student@aucegypt.edu' },
+      defaults: {
+        name: 'John Doe',
+        email: 'student@aucegypt.edu',
+        studentId: '2021001',
+        department: 'Computer Science',
+        yearLevel: '2',
+        password: 'password123', // ✅ Plain text - model will hash it
+        isAccountVerified: true,
+        role: 'student',
+        maxCreditsPerSemester: 18
+      }
+    });
+    
+    if (studentCreated) {
+      console.log('✅ Student user created:', student.email);
+    } else {
+      console.log('⏭️  Student user already exists');
+    }
+
+    console.log('Starting to seed courses...\n');
 
 const sampleCourses = [
   // Computer Science Courses
@@ -823,12 +876,6 @@ const sampleCourses = [
     isActive: true
   }
 ];
-
-const seedCourses = async () => {
-  try {
-    await sequelize.sync({ force: false });
-    
-    console.log('Starting to seed courses...\n');
     
     for (const courseData of sampleCourses) {
       const [course, created] = await Course.findOrCreate({
@@ -844,22 +891,17 @@ const seedCourses = async () => {
     }
     
     console.log(`\n✅ Successfully seeded ${sampleCourses.length} courses!`);
-    console.log('\nCourse breakdown:');
-    console.log('- Computer Science: 8 courses');
-    console.log('- Mathematics: 6 courses');
-    console.log('- Physics: 4 courses');
-    console.log('- English: 4 courses');
-    console.log('- Business: 5 courses');
-    console.log('- Psychology: 4 courses');
-    console.log('- Biology: 4 courses');
-    console.log('- Chemistry: 4 courses');
-    console.log('- History: 3 courses');
-    console.log('- Economics: 3 courses');
-    console.log('- Summer courses: 2 courses');
+    console.log('\n📝 Login Credentials:');
+    console.log('Admin:');
+    console.log('  Email: admin@aucegypt.edu');
+    console.log('  Password: password123');
+    console.log('\nStudent:');
+    console.log('  Email: student@aucegypt.edu');
+    console.log('  Password: password123');
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding courses:', error);
+    console.error('❌ Error seeding:', error);
     process.exit(1);
   }
 };

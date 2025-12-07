@@ -3,7 +3,9 @@ import {
   enrollInCourse, 
   dropCourse, 
   getMyEnrollments,
-  checkEnrollment 
+  checkEnrollment,
+  getCurrentCredits  // ✅ ADD THIS
+
 } from '../controllers/enrollmentController.js';
 import userAuth from '../middleware/userAuth.js';
 
@@ -23,5 +25,8 @@ enrollmentRouter.get('/check/:courseId', checkEnrollment);
 
 // Drop a course
 enrollmentRouter.delete('/drop/:courseId', dropCourse);
+
+enrollmentRouter.get('/current-credits', userAuth, getCurrentCredits); 
+
 
 export default enrollmentRouter;
