@@ -67,6 +67,21 @@ const User = sequelize.define('User', {
   resetOTPExpireAt: {
     type: DataTypes.BIGINT,
     defaultValue: 0
+  },
+  maxCreditsPerSemester: {
+  type: DataTypes.INTEGER,
+  defaultValue: 18,
+  validate: {
+    min: 12,
+    max: 24
+  },
+  comment: 'Maximum credits allowed per semester'
+},
+  role: {
+    type: DataTypes.ENUM('student', 'admin', 'instructor'),
+    defaultValue: 'student',
+    allowNull: false,
+    comment: 'User role for access control'
   }
 }, {
   timestamps: true,

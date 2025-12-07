@@ -38,6 +38,20 @@ const Enrollment = sequelize.define('Enrollment', {
   enrolledAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
+  },
+    grade: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isIn: [['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F', 'P', 'NP', 'W', 'I']]
+    },
+    comment: 'Final grade for completed courses'
+  },
+  // ✅ NEW: Add completion date
+  completedAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: 'Date when course was completed'
   }
 }, {
   timestamps: true,
