@@ -28,9 +28,9 @@ const Course = sequelize.define('Course', {
     allowNull: false,
     validate: {
       min: 1,
-      max: 6
+      max: 8  // ✅ Changed from 6 to 8 to allow higher credit courses
     },
-    comment: 'Credit hours (1-6)'
+    comment: 'Credit hours (1-8)'
   },
   department: {
     type: DataTypes.STRING(100),
@@ -92,7 +92,13 @@ const Course = sequelize.define('Course', {
   prerequisites: {
     type: DataTypes.TEXT,
     allowNull: true,
-    comment: 'Prerequisites as comma-separated course codes'
+    comment: 'Prerequisites as comma-separated course codes (e.g., "CS101,MATH201")'
+  },
+  // ADD THIS NEW FIELD
+  corequisites: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    comment: 'Corequisites as comma-separated course codes (courses that must be taken together)'
   },
   isActive: {
     type: DataTypes.BOOLEAN,
@@ -137,4 +143,46 @@ Course.prototype.getAvailableSeats = function() {
   return this.maxCapacity - this.currentEnrollment;
 };
 
+// ADD HELPER METHODS for parsing prerequisites
+Course.prototype.getCorequisitesArray = function() {
+  if (!this.corequisites) return [];
+  return this.corequisites.split(',').map(code => code.trim()).filter(code => code.length > 0);
+};
+
+
+// Instance method to check if course is full
+Course.prototype.isFull = function() {
+  return this.currentEnrollment >= this.maxCapacity;
+};
+
+// Instance method to get available seats
+Course.prototype.getAvailableSeats = function() {
+  return this.maxCapacity - this.currentEnrollment;
+};
+
+// ADD THESE NEW METHODS:
+
+// Parse prerequisites from TEXT to Array
+Course.prototype.getPrerequisitesArray = function() {
+  if (!this.prerequisites || this.prerequisites.trim() === '') {
+    return [];
+  }
+  return this.prerequisites
+    .split(',')
+    .map(code => code.trim())
+    .filter(code => code.length > 0);
+};
+
+// Parse corequisites from TEXT to Array (if you added corequisites field)
+Course.prototype.getCorequisitesArray = function() {
+  if (!this.corequisites || this.corequisites.trim() === '') {
+    return [];
+  }
+  return this.corequisites
+    .split(',')
+    .map(code => code.trim())
+    .filter(code => code.length > 0);
+};
+
 export default Course;
+
