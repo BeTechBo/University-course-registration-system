@@ -112,7 +112,7 @@ Banner-10.0/
 Clone the repository:
 
 ~~~bash
-git clone <https://github.com/Hamdy1337/Banner-10.0.git>
+git clone https://github.com/BeTechBo/University-course-registration-system.git
 cd Banner-10.0
 ~~~
 
@@ -194,6 +194,26 @@ The frontend is configured to call the backend API (for example `http://localhos
 
 ---
 
+## Team
+
+This was a group project developed by a 5-person team. Team members:
+- Saif Abdelfattah
+- Mohamed Hamdy ([Hamdy1337](https://github.com/Hamdy1337))
+- Ebram Thabet
+- Adham Ali
+- AbdElrahman Osama
+
+Originally developed as "Banner 10.0."
+
+## My Contributions
+
+My role on this team was **Scrum Master**, and I worked on:
+
+- **Testing:** Led testing efforts for the application.
+- **Cart System:** Built the shopping-cart/course-cart functionality used during registration.
+
+
+
 ## Development Notes
 
 - There is **no `Makefile`** in this project yet; please use only `npm` scripts for now.  
@@ -211,6 +231,5 @@ The frontend is configured to call the backend API (for example `http://localhos
 
 ---
 
-## License
 
 
